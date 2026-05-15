@@ -10,7 +10,7 @@ const msgs = document.getElementById('messages');
       tag: 'saudacao',
       palavras: ['oi', 'ola', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem', 'como vai', 'e ai', 'hey', 'hello', 'hi', 'salve', 'oie'],
       resposta: 'Olá! Seja bem-vindo ao atendimento financeiro da FashionFlow 👋 Como posso te ajudar hoje?',
-      chips: ['Formas de pagamento', 'Parcelamento', 'Pagar com Pix', 'Pagar no crédito', 'Reembolso', 'Débito em conta']
+      chips: ['Formas de pagamento', 'Parcelamento', 'Pagar com Pix', 'Pagar no crédito', 'Boleto', 'Reembolso', 'Débito em conta']
     },
     {
       tag: 'formas_pagamento',
@@ -66,9 +66,10 @@ const msgs = document.getElementById('messages');
       chips: ['Encerrar atendimento']
     },
     {
-      tag: 'desconto',
-      palavras: ['cupom', 'desconto', 'voucher', 'promoção', 'codigo promocional', 'cupom de desconto', 'tem desconto', 'black friday'],
-      resposta: 'Você pode aplicar seu cupom na etapa de revisão do pedido, antes de finalizar o pagamento.',
+      tag: 'boleto',
+      palavras: ['boleto', 'pagar com boleto', 'boleto bancario', 'segunda via boleto', 'imprimir boleto', 'codigo de barras'],
+      resposta: 'Boleto bancário disponível com vencimento em 3 dias úteis. Acesse o link para gerar:',
+      especial: 'link_boleto',
       chips: ['Pagar com Pix', 'Pagar no crédito', 'Encerrar atendimento']
     },
     {
@@ -108,57 +109,56 @@ const msgs = document.getElementById('messages');
   function especialHTML(tipo) {
     if (tipo === 'chave_pix') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-brand-paypal" aria-hidden="true"></i> Chave Pix</div>
+      <div class="card-title">💳 Chave Pix</div>
       <div class="pix-key"><span>fashionflow</span>@pagamentos.com.br</div>
       <div style="font-size:11px;color:var(--color-text-secondary);margin-top:6px;">Tipo: e-mail · Favorecido: FashionFlow Ltda · CNPJ: 00.000.000/0001-00</div>
-      <button class="copy-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('fashionflow@pagamentos.com.br');this.textContent='✓ Copiado!'"><i class="ti ti-copy"></i> Copiar chave</button>
+      <button class="copy-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('fashionflow@pagamentos.com.br');this.textContent='✓ Copiado!'">📋 Copiar chave</button>
       <div style="margin-top:8px;font-size:11px;color:var(--color-text-secondary);">Após o pagamento, envie o comprovante pelo chat.</div>
     </div>`;
     }
     if (tipo === 'link_credito') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-credit-card" aria-hidden="true"></i> Checkout seguro — crédito</div>
+      <div class="card-title">💳 Checkout seguro — crédito</div>
       <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Ambiente criptografado. Bandeiras aceitas: Visa, Master, Elo, Amex, Hipercard.</div>
-      <a class="link-btn" href="https://checkout.fashionflow.com.br/credito" target="_blank"><i class="ti ti-external-link"></i> Acessar checkout</a>
+      <a class="link-btn" href="https://checkout.fashionflow.com.br/credito" target="_blank">🔗 Acessar checkout</a>
       <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary);">Sessão expira em 15 minutos.</div>
     </div>`;
     }
     if (tipo === 'link_debito') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-credit-card" aria-hidden="true"></i> Checkout seguro — débito</div>
+      <div class="card-title">💳 Checkout seguro — débito</div>
       <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Débito disponível para Visa Electron, Maestro e Elo Débito.</div>
-      <a class="link-btn" href="https://checkout.fashionflow.com.br/debito" target="_blank"><i class="ti ti-external-link"></i> Acessar checkout</a>
+      <a class="link-btn" href="https://checkout.fashionflow.com.br/debito" target="_blank">🔗 Acessar checkout</a>
     </div>`;
     }
     if (tipo === 'link_misto') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-arrows-exchange" aria-hidden="true"></i> Pagamento combinado</div>
+      <div class="card-title">🔄 Pagamento combinado</div>
       <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Escolha o valor no Pix e o restante no crédito diretamente no checkout.</div>
-      <a class="link-btn" href="https://checkout.fashionflow.com.br/misto" target="_blank"><i class="ti ti-external-link"></i> Acessar checkout misto</a>
+      <a class="link-btn" href="https://checkout.fashionflow.com.br/misto" target="_blank">🔗 Acessar checkout misto</a>
     </div>`;
     }
     if (tipo === 'link_pedido') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-package" aria-hidden="true"></i> Área do cliente</div>
-      <a class="link-btn" href="https://app.fashionflow.com.br/meus-pedidos" target="_blank"><i class="ti ti-external-link"></i> Ver meus pedidos</a>
+      <div class="card-title">📦 Área do cliente</div>
+      <a class="link-btn" href="https://app.fashionflow.com.br/meus-pedidos" target="_blank">🔗 Ver meus pedidos</a>
     </div>`;
     }
     if (tipo === 'tabela_parcelas') {
       const dados = [[1, 'Sem juros'], [2, 'Sem juros'], [3, 'Sem juros'], [6, 'Sem juros'], [9, '0,99% a.m.'], [12, 'Sem juros (cartão parceiro)']];
       const linhas = dados.map(([p, j]) => `<tr><td style="padding:5px 8px;font-size:12px;">${p}x</td><td style="padding:5px 8px;font-size:12px;color:var(--color-text-secondary);">${j}</td></tr>`).join('');
-      return `<div class="special-card"><div class="card-title"><i class="ti ti-list" aria-hidden="true"></i> Tabela de parcelamento</div><table style="width:100%;border-collapse:collapse">${linhas}</table></div>`;
+      return `<div class="special-card"><div class="card-title">📊 Tabela de parcelamento</div><table style="width:100%;border-collapse:collapse">${linhas}</table></div>`;
     }
     if (tipo === 'pagamentos_lista') {
-      const itens = [['ti-brand-paypal', 'Pix', 'Aprovação imediata'], ['ti-credit-card', 'Crédito', 'Até 12x sem juros'], ['ti-credit-card', 'Débito', 'Principais bandeiras'], ['ti-arrows-exchange', 'Pix + Crédito', 'Pagamento misto']];
-      const cards = itens.map(([ic, nome, desc]) => `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);"><i class="ti ${ic}" style="font-size:18px;color:#4f8ef7" aria-hidden="true"></i><div><div style="font-size:13px;font-weight:500;">${nome}</div><div style="font-size:11px;color:var(--color-text-secondary);">${desc}</div></div></div>`).join('');
+      const itens = [['💳', 'Pix', 'Aprovação imediata'], ['💳', 'Crédito', 'Até 12x sem juros'], ['💳', 'Débito', 'Principais bandeiras'], ['�', 'Boleto', 'Vencimento em 3 dias'], ['�🔄', 'Pix + Crédito', 'Pagamento misto']];
+      const cards = itens.map(([ic, nome, desc]) => `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);"><span style="font-size:18px;">${ic}</span><div><div style="font-size:13px;font-weight:500;">${nome}</div><div style="font-size:11px;color:var(--color-text-secondary);">${desc}</div></div></div>`).join('');
       return `<div class="special-card"><div class="card-title">Métodos disponíveis</div>${cards}</div>`;
     }
-    if (tipo === 'form_reembolso') {
+    if (tipo === 'link_boleto') {
       return `<div class="special-card">
-      <div class="card-title"><i class="ti ti-receipt-refund" aria-hidden="true"></i> Solicitação de reembolso</div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Prazo: até 24h (Pix) ou 48h úteis (cartão).</div>
-      <a class="link-btn" href="https://suporte.fashionflow.com.br/reembolso" target="_blank"><i class="ti ti-external-link"></i> Abrir formulário de reembolso</a>
-      <div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary);">Tenha em mãos: número do pedido e e-mail cadastrado.</div>
+      <div class="card-title">📄 Boleto bancário</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Vencimento: 3 dias úteis após emissão.</div>
+      <a class="link-btn" href="https://checkout.fashionflow.com.br/boleto" target="_blank">🔗 Gerar boleto</a>
     </div>`;
     }
     return '';
@@ -240,5 +240,5 @@ const msgs = document.getElementById('messages');
 
   setTimeout(() => {
     addMsg('bot', 'Olá! Seja bem-vindo ao atendimento financeiro da FashionFlow 👋 Como posso te ajudar hoje?', null,
-      ['Formas de pagamento', 'Pagar com Pix', 'Pagar no crédito', 'Parcelamento', 'Reembolso', 'Débito em conta']);
+      ['Formas de pagamento', 'Pagar com Pix', 'Pagar no crédito', 'Parcelamento', 'Boleto', 'Reembolso', 'Débito em conta']);
   }, 300);
