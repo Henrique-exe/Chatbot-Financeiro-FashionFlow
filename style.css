@@ -4,6 +4,20 @@
      padding: 0;
  }
 
+ :root {
+     --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     --font-mono: 'Courier New', monospace;
+     --color-background-primary: #ffffff;
+     --color-background-secondary: #f8f9fa;
+     --color-background-tertiary: #f1f3f4;
+     --color-text-primary: #1a1a2e;
+     --color-text-secondary: #6c757d;
+     --color-border-secondary: #dee2e6;
+     --color-border-tertiary: #e9ecef;
+     --border-radius-md: 8px;
+     --border-radius-lg: 12px;
+ }
+
  body {
      font-family: var(--font-sans);
  }
